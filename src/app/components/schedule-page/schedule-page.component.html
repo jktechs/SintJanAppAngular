@@ -1,0 +1,15 @@
+<div style="position:absolute;width: 100%;height: 100%;overflow: hidden;touch-action: none;" (pointermove)="page.log($event)" (pointerup)="page.reset($event)">
+    <div *ngFor="let i of weeks" style="position:absolute;width: 100%;height: 100%;touch-action: none;" [ngStyle]="{transform: 'translateX(calc('+(i.index-1)*100+'% + '+page.offset+'px))'}">
+        <div *ngFor="let _ of fakeArray; let index = index" style="position: absolute;height: 7%;touch-action: none;" [ngStyle]="{left:'calc(100% / '+total+' * '+days[index].index+')',width: 'calc(100% / '+total+')'}" class="container">
+            {{days[index].text}}
+        </div>
+        <ng-container *ngFor="let day of i.days">
+            <ng-container *ngFor="let item of day">
+                <div style="position: absolute;touch-action: none;" [ngStyle]="{left:'calc(100% / '+total+' * '+item.dayNumber+')',width: 'calc(100% / '+total+')',top:'calc(7% + '+minuteToPixel+'px * '+(item.start-startMinute)+')',height:'calc('+minuteToPixel+'px * '+(item.end-item.start)+')'}" class="container">
+                    <!--{{item.location.toString()}}<br/>-->
+                    {{item.name}}
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

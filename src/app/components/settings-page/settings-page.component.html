@@ -1,0 +1,25 @@
+<form class="example-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Chain code</mat-label>
+      <input type="text" matInput [formControl]="codeFormControl" [errorStateMatcher]="matcher"
+             placeholder="000000">
+      <!--<mat-hint>Errors appear instantly!</mat-hint>-->
+      <mat-error *ngIf="codeFormControl.hasError('pattern') && !codeFormControl.hasError('required')">
+        Please enter a valid code
+      </mat-error>
+      <mat-error *ngIf="codeFormControl.hasError('required')">
+        Chain code is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <button mat-flat-button color="primary" (click)="onSubmit()">Zermelo login</button>
+  </form>
+  <button mat-flat-button color="primary" (click)="somLogin();">Somtoday login</button>
+  <button mat-flat-button color="primary" (click)="startScanning();">Start qrcode scan</button>
+  <div style="display:flex;flex-direction: column;justify-content: space-evenly;width: 100%;padding:1%">
+    <a><b>Contact</b></a>
+    <a href="https://www.google.com/maps/dir//Sint-Janscollege,+Amstenraderweg+122,+6431+EN+Hoensbroek/">Amstenraderweg 122<br>6431 EN Hoensbroek<br><i class="fa-solid fa-location-dot"></i> Routebeschrijving</a>
+    <br>
+    <a href="tel:+31455218666">Algemeen <i class="fa-solid fa-phone"></i> 045-5218666</a>
+    <br>
+    <a href="mailto:info@sintjan-lvo.nl"><i class="fa-solid fa-envelope"></i> info@sintjan-lvo.nl</a>
+  </div>

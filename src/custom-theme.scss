@@ -1,0 +1,122 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+@use 'sass:map';
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+
+$sintjan-palette: (
+ 50:  #feebf1,
+ 100: #feccd8,
+ 200: #f097a4,
+ 300: #e86e81,
+ 400: #fd2a4b,
+ 500: #fd2a4b,
+ 600: #ed1f49,
+ 700: #db1042,
+ 800: #ce003a,
+ 900: #c0002e,
+ A50: #dff7ec,
+ A100: #b0ead0,
+ A200: #77dcb2,
+ A300: #00ce94,
+ A400: #00c37c,
+ A500: #00b666,
+ A600: #00a75b,
+ A700: #00944e,
+ A800: #008341,
+ A900: #00632b,
+ contrast: (
+   50: black,
+   100: black,
+   200: black,
+   300: black,
+   400: black,
+   500: white,
+   600: white,
+   700: white,
+   800: white,
+   900: white,
+ )
+);
+$coll: (
+ 50:  #00a75b,
+ 100: #00a75b,
+ 200: #00a75b,
+ 300: #00a75b,
+ 400: #00a75b,
+ 500: #00a75b,
+ 600: #00a75b,
+ 700: #00a75b,
+ 800: #00a75b,
+ 900: #00a75b,
+ A50: #00a75b,
+ A100: #00a75b,
+ A200: #00a75b,
+ A300: #00a75b,
+ A400: #00a75b,
+ A500: #00a75b,
+ A600: #00a75b,
+ A700: #00a75b,
+ A800: #00a75b,
+ A900: #00a75b,
+ contrast: (
+   50: #00a75b,
+   100: #00a75b,
+   200: #00a75b,
+   300: #00a75b,
+   400: #00a75b,
+   500: #00a75b,
+   600: #00a75b,
+   700: #00a75b,
+   800: #00a75b,
+   900: #00a75b,
+ )
+);
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$SintJanApp-primary: mat.define-palette($sintjan-palette, 500);
+$SintJanApp-accent: mat.define-palette($sintjan-palette, A200, A100, A400);
+
+$SintJanApp-primary-dark: mat.define-palette($coll, 500);
+$SintJanApp-accent-dark: mat.define-palette($coll, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$SintJanApp-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$SintJanApp-theme: mat.define-light-theme((
+  color: (
+    primary: $SintJanApp-primary,
+    accent: $SintJanApp-accent,
+    warn: $SintJanApp-warn,
+  )
+));
+
+// Define a dark theme
+$dark-primary: mat.define-palette($sintjan-palette);
+$dark-accent: mat.define-palette($sintjan-palette);
+$dark-theme: mat.define-dark-theme((
+ color: (
+   primary: $dark-primary,
+   accent: $dark-accent,
+   warn: $SintJanApp-warn,
+ )
+));
+// Apply the dark theme by default
+@include mat.all-component-themes($dark-theme);
+
+// Apply the light theme only when the `.my-light-theme` CSS class is applied
+// to an ancestor element of the components (such as `body`).
+@media (prefers-color-scheme: light) {
+  body {
+   @include mat.all-component-themes($SintJanApp-theme);
+  }
+}

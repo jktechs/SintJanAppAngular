@@ -1,0 +1,16 @@
+<div [ngStyle]="{
+    'width': (31.99*widget.width-4)+'vw',
+    'height': (32*widget.height-4)+'vw',
+    'background-color': widget.color,
+    'border-radius': '5vw',
+    'position':'absolute',
+    'top': (widget.y*(28+4)+4)+'vw',
+    'left': (widget.x*(28+4)+4)+'vw',
+    '-webkit-mask-image': widget['src']?('url('+widget['src']+')'):'none',
+    '-webkit-mask-size': 'contain',
+    'overflow': 'auto'
+}"
+(click)="openLink(data['appName'])">
+    <!--<img *ngIf="name === 'link'" [src]="data['src']" style="width: 100%;height: 100%; " (click)="openLink(data['appName'])"/>-->
+    <app-grade-widget *ngIf="name === 'grades'"></app-grade-widget>
+</div>

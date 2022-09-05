@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SintJanApp</string>
+    <string name="title_activity_main">SintJanApp</string>
+    <string name="package_name">nl.sint_jan.app</string>
+    <string name="custom_url_scheme">somtodayleerling</string>
+</resources>

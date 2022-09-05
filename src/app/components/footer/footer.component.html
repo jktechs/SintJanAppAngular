@@ -1,0 +1,4 @@
+<ng-content></ng-content>
+<!--mat-app-background--><div class="container mat-app-background" style="display: flex;justify-content: space-evenly;position: absolute;bottom: 0px;width: 100%;height: 10%;">
+    <button *ngFor="let item of buttons" mat-flat-button color="primary" (click)="onButtonClick(item)">{{item.name}}</button>
+</div>
