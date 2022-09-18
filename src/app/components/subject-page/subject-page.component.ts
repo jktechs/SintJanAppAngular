@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
 import { Grade, Subject } from 'src/lib/Utils';
+import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
   selector: 'app-subject-page',
@@ -8,11 +9,23 @@ import { Grade, Subject } from 'src/lib/Utils';
   styleUrls: ['./subject-page.component.css']
 })
 export class SubjectPageComponent implements OnInit {
-  subjs: {grade: Grade[], subjname: string}[] = Object.values(AppComponent.data.value.subjects).filter((item: Subject | undefined): item is Subject => {return !!item}).map(x => {return {grade: x.grades, subjname: x.name}});
-  text: string = JSON.stringify(this.subjs);
-  constructor() { }
+
+  public subjectName: string = "";
+  public grades: Grade[] = [];
+  constructor() {
+    if(NavigationComponent.instance.activeElement !== undefined)
+      this.subjectName = NavigationComponent.instance.activeElement.data.name
+    if(Object.keys(AppComponent.data.value.subjects).includes(this.subjectName)) {
+      	let s: Subject | undefined = AppComponent.data.value.subjects[this.subjectName];
+        if(s !== undefined)
+          this.grades = s.grades;
+    }
+  }
   ngOnInit(): void {
-    console.log();
+    //console.log();
+  }
+  back(): void {
+    alert("back")
   }
 
 }

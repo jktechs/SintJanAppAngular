@@ -1,11 +1,11 @@
 <div [ngStyle]="{
-    'width': (31.99*widget.width-4)+'vw',
-    'height': (32*widget.height-4)+'vw',
+    'width': (size*widget.width-padding)+'vw',
+    'height': (size*widget.height-padding)+'vw',
     'background-color': widget.color,
     'border-radius': '5vw',
     'position':'absolute',
-    'top': (widget.y*(28+4)+4)+'vw',
-    'left': (widget.x*(28+4)+4)+'vw',
+    'top': (widget.y*size+padding)+'vw',
+    'left': (widget.x*size+padding)+'vw',
     '-webkit-mask-image': widget['src']?('url('+widget['src']+')'):'none',
     '-webkit-mask-size': 'contain',
     'overflow': 'auto'

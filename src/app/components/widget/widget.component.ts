@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NumberValueAccessor } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
@@ -10,7 +9,14 @@ import { AppComponent } from 'src/app/app.component';
 export class WidgetComponent implements OnInit {
   @Input() name: string = "";
   @Input() data: WidgetData = new WidgetData();
-  constructor() { }
+
+  size: number;
+  collumNumber = 2;
+  padding: number = 4;
+
+  constructor() {
+    this.size = (100-this.padding*(1+this.collumNumber))/this.collumNumber + this.padding;
+  }
 
   widgets: {[name: string]: Widget} = {
     link: new Widget(1,1,"white"),

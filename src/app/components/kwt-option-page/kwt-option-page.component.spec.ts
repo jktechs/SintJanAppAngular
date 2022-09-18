@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from './header.component';
+import { KwtOptionPageComponent } from './kwt-option-page.component';
 
-describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+describe('KwtOptionPageComponent', () => {
+  let component: KwtOptionPageComponent;
+  let fixture: ComponentFixture<KwtOptionPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
+      declarations: [ KwtOptionPageComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(KwtOptionPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

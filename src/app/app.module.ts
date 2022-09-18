@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GridPageComponent } from './components/grid-page/grid-page.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
@@ -20,11 +19,12 @@ import { SubjectPageComponent } from './components/subject-page/subject-page.com
 import { GlobalErrorHandler } from 'src/lib/GlobalErrorHandler';
 import { GradeWidgetComponent } from './components/grade-widget/grade-widget.component';
 import { WidgetComponent } from './components/widget/widget.component';
+import { SubjectListPageComponent } from './components/subject-list-page/subject-list-page.component';
+import { KwtOptionPageComponent } from './components/kwt-option-page/kwt-option-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     GridPageComponent,
     NavigationComponent,
     ListItemDirective,
@@ -34,6 +34,8 @@ import { WidgetComponent } from './components/widget/widget.component';
     SubjectPageComponent,
     GradeWidgetComponent,
     WidgetComponent,
+    SubjectListPageComponent,
+    KwtOptionPageComponent,
   ],
   imports: [
     BrowserModule,

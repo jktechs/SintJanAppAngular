@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
-import { Somtoday } from 'src/lib/Somtoday';
-import { setVar, Week } from 'src/lib/Utils';
+import { Lesson, setVar, Week } from 'src/lib/Utils';
+import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
   selector: 'app-schedule-page',
@@ -10,9 +9,9 @@ import { setVar, Week } from 'src/lib/Utils';
   styleUrls: ['./schedule-page.component.css']
 })
 export class SchedulePageComponent implements OnInit, OnDestroy {
-  startMinute = 20 + 9*60;
-  endMinute = 5 + 16*60;
-  weekNumber = 37;
+  startMinute = 8*60+30;
+  endMinute = 5 + 18*60+5;
+  weekNumber = AppComponent.getWeek(new Date());
   minuteToPixel: number = -1;
 
   width: number;
@@ -24,32 +23,34 @@ export class SchedulePageComponent implements OnInit, OnDestroy {
     let keys = Object.keys(AppComponent.data.value.subjects);
     keys.forEach(key => {
       let subj = AppComponent.data.value.subjects[key];
-      if(subj !== undefined){
-        for(let i = 0;i<subj.weeks.length;i++) {
-          if(subj.weeks[i].index <= this.weekNumber+1 && subj.weeks[i].index >= this.weekNumber-1){
-            let page = subj.weeks[i].index - this.weekNumber + 1;
-            for(let j = 0;j<this.total;j++){
-              out[page].days[j] = out[page].days[j].concat(subj.weeks[i].days[j]);
-            }
+      if(subj !== undefined)
+        subj.weeks.forEach(week=>{
+          if(week.index <= this.weekNumber+1 && week.index >= this.weekNumber-1){
+            let page = week.index - this.weekNumber + 1;
+            for(let j = 0;j<this.total;j++)
+              out[page].days[j] = out[page].days[j].concat(week.days[j]);
           }
-        }
-      }
+        })
     });
     return out;
   }
   days: {index: number, text: string}[] = [{index:0,text:"Mon"},{index:1,text:"Tue"},{index:2,text:"Wen"},{index:3,text:"Thu"},{index:4,text:"Fri"},{index:5,text:"Sat"},{index:6,text:"Sun"}];
   constructor() {
     this.width = window.innerWidth/2;
-    this.minuteToPixel = window.innerHeight/2*0.75*0.93/(this.endMinute-this.startMinute);
+    this.minuteToPixel = window.innerHeight*0.75*0.93/(this.endMinute-this.startMinute);
     this.page = new PageHandler(this.width);
+    this.page.update = (n: number) => {this.weekNumber += n}
   }
   ngOnInit(): void {
     setVar(this,"sc")
     setVar(AppComponent.data.value,"data")
   }
   ngOnDestroy(): void {
-    if(this.page.interval !== undefined)
-      clearInterval(this.page.interval);
+    this.page.clear();
+  }
+  showOptions(l: Lesson){
+    if(l.options.length !== 0 && NavigationComponent.instance.kwtPage !== undefined)
+      NavigationComponent.instance.setActive(NavigationComponent.instance.kwtPage, l);
   }
 }
 export class PageHandler {
@@ -58,36 +59,58 @@ export class PageHandler {
   constructor(width: number) {
     this.width = width;
   }
+  update: ((n: number)=>void) | undefined;
   offset: number = 0;
-  interval: ReturnType<typeof setInterval> | undefined;
+  intervals: (ReturnType<typeof setInterval>)[] = []
   lastId: number = -1;
   oldPos: number = 0;
   pressed: boolean = false;
   log(e: PointerEvent): void {
-    this.offset = Math.max(-this.width,Math.min(this.width,this.offset))
     if(e.pointerId !== this.lastId){
+      if(this.clear()){
+        let page = Math.round(this.offset/this.width);
+        let diff: number = this.offset/this.width - page;
+        if(this.update !== undefined && page !== 0)
+          this.update(Math.sign(diff));
+      }
+      this.offset = 0;
       this.oldPos = e.x
       this.pressed = true
       this.lastId = e.pointerId
     }
     if(this.pressed) {
-      let delta: number = (e.x-this.oldPos)*2;
+      let delta: number = (e.x-this.oldPos)*1.75;
       this.offset += delta
       this.oldPos = e.x
     }
+    this.clamp();
+  }
+  clamp(): void {
+    this.offset = Math.max(-2*PageHandler.epsilon-this.width,Math.min(this.width-2*PageHandler.epsilon,this.offset));
   }
   reset(e: PointerEvent): void {
     this.pressed = false;
-    this.interval = setInterval(()=>{
-      let diff: number = this.offset/this.width - Math.round(this.offset/this.width);
+    this.intervals.push(setInterval(()=>{
+      let page = Math.round(this.offset/this.width);
+      let diff: number = this.offset/this.width - page;
       if(Math.abs(diff) < PageHandler.epsilon){
-        //update
-        this.offset = this.width*diff;
-        clearInterval(this.interval);
-        this.interval = undefined;
+        if(this.update !== undefined && page !== 0)
+          this.update(Math.sign(diff));
+        this.offset = 0;
+        this.clear();
       }
       if(!this.pressed)
-        this.offset -= 0.1*diff*this.width;
-    },20);
+        this.offset -= 9.2*0.008*diff*this.width;
+        this.clamp();
+    },8));
+  }
+  clear(): boolean {
+    if(this.intervals.length === 0)
+      return false;
+    let handle: ReturnType<typeof setInterval> | undefined;
+    while((handle = this.intervals.pop()) !== undefined) {
+      clearInterval(handle);
+    }
+    return true;
   }
 }

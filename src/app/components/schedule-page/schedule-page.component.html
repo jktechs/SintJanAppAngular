@@ -5,9 +5,9 @@
         </div>
         <ng-container *ngFor="let day of i.days">
             <ng-container *ngFor="let item of day">
-                <div style="position: absolute;touch-action: none;" [ngStyle]="{left:'calc(100% / '+total+' * '+item.dayNumber+')',width: 'calc(100% / '+total+')',top:'calc(7% + '+minuteToPixel+'px * '+(item.start-startMinute)+')',height:'calc('+minuteToPixel+'px * '+(item.end-item.start)+')'}" class="container">
-                    <!--{{item.location.toString()}}<br/>-->
-                    {{item.name}}
+                <div (click)="showOptions(item)" style="position: absolute;touch-action: none;" [ngStyle]="{left:'calc(100% / '+total+' * '+item.dayNumber+')',width: 'calc(100% / '+total+')',top:'calc(7% + '+minuteToPixel+'px * '+(item.start-startMinute)+')',height:'calc('+minuteToPixel+'px * '+(item.end-item.start)+')'}" class="container">
+                    {{item.name}}<br>
+                    {{item.location.toString()}}
                 </div>
             </ng-container>
         </ng-container>

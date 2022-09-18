@@ -3,10 +3,9 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/form
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AppComponent } from 'src/app/app.component';
 import { BarcodeScanner, CameraDirection, CheckPermissionResult, ScanResult, SupportedFormat } from '@capacitor-community/barcode-scanner';
-import { delay, tryJSONParse } from 'src/lib/Utils';
+import { tryJSONParse } from 'src/lib/Utils';
 import { Browser } from '@capacitor/browser';
 import { Somtoday } from 'src/lib/Somtoday';
-import { Zermelo } from 'src/lib/Zermelo';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

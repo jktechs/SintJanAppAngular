@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { afsprakenResult, resultatenResult, Somtoday } from 'src/lib/Somtoday';
+import { afsprakenResult, resultatenResult, Somtoday, Vak } from 'src/lib/Somtoday';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
-import { Zermelo } from 'src/lib/Zermelo';
+import { LivescheduleResponse, Zermelo } from 'src/lib/Zermelo';
 import { Browser } from '@capacitor/browser';
-import { JSONObject, Savable, Subject, Location, Lesson, Week, setVar } from 'src/lib/Utils';
+import { JSONObject, Savable, Subject, Location, Lesson, Week, setVar, getWeekDates } from 'src/lib/Utils';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { App } from '@capacitor/app';
 import { Preferences } from '@capacitor/preferences';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -78,73 +79,90 @@ export class AppComponent implements OnInit {
         //alert(JSON.stringify(schedule));
     //  });
     //}
-    let result: afsprakenResult = await AppComponent.somtoday.getScedule(new Date("2022-09-05T00:00"), new Date("2022-09-26T00:00"));
-    for(let i = 0;i<result.items.length;i++) {
-      let start = new Date(result.items[i].beginDatumTijd);
-      let week = this.getWeek(start);
-      let day = (start.getDay()-1) - Math.floor((start.getDay()-1)/7)*7;
-      let minutes = start.getMinutes()+start.getHours()*60;
-      let end = new Date(result.items[i].eindDatumTijd);
-      let endMinutes = end.getMinutes()+end.getHours()*60;
-      let subject = result.items[i].additionalObjects.vak;
+    let dates = getWeekDates(2022, AppComponent.getWeek(new Date())-1,3);
+    let result: afsprakenResult = await AppComponent.somtoday.getScedule(dates.begin, dates.end);
+    result.items.forEach(item=>{
+      let start = new Date(item.beginDatumTijd);
+      let end = new Date(item.eindDatumTijd);
+      let subject = item.additionalObjects.vak;
       let name = "idk";
       if(subject !== null)
-       name = subject.naam;
-      if(!Object.keys(AppComponent.data.value.subjects).includes(name)){
-        let s = new Subject();
-        s.name = name;
-        AppComponent.data.value.subjects[name] = s;
-      }
-      let s = AppComponent.data.value.subjects[name];
-      if(s instanceof Subject){
-        let weekIndex = s.weeks.findIndex(x=>{return x.index == week;})
-        let lesson = new Lesson(result.items[i].titel, new Location(result.items[i].locatie.toUpperCase()), day, week, minutes, endMinutes)
-        if(weekIndex !== -1) {
-          s.weeks[weekIndex].days[day].push(lesson)
-        } else {
-          let w: Week = new Week(week);
-          let all: [Lesson[], Lesson[], Lesson[], Lesson[], Lesson[], Lesson[], Lesson[]] = [[],[],[],[],[],[],[]];
-          all[day].push(lesson)
-          w.days = all;
-          s.weeks.push(w);
-        }
-      }
-    }
+        name = subject.afkorting;
+      this.addLesson(name, item.titel, new Location(item.locatie.toUpperCase()), start, end);
+    })
     let result2: resultatenResult = await AppComponent.somtoday.getGrades();
-    for(let i = 0;i<result2.items.length;i++){
-      let item = result2.items[i]
-      let name = item.vak.naam;
+    result2.items.forEach(item=>{
+      let name = item.vak.afkorting;
       if(!Object.keys(AppComponent.data.value.subjects).includes(name)){
         let s = new Subject();
         s.name = name;
         AppComponent.data.value.subjects[name] = s;
       }
       if(item.type === 'Toetskolom' && item.geldendResultaat !== undefined && item.weging !== undefined) {
-        AppComponent.data.value.subjects[name]?.grades.push({value: item.geldendResultaat, weight: item.weging, discriptor: item.omschrijving === undefined?"":item.omschrijving, average: false})
-      } else if(item.type === 'SEGemiddeldeKolom' && item.geldendResultaat !== undefined) {
-        AppComponent.data.value.subjects[name]?.grades.push({value: item.geldendResultaat, weight: 0, discriptor: item.omschrijving === undefined?"":item.omschrijving, average: true})
+        AppComponent.data.value.subjects[name]?.grades.push({value: item.geldendResultaat, weight: item.weging, discriptor: item.omschrijving === undefined?"":item.omschrijving})
+      } else if(item.type === 'SEGemiddeldeKolom' && item.geldendResultaat !== undefined && AppComponent.data.value.subjects[name] !== undefined) {
+        let s = AppComponent.data.value.subjects[name];
+        if(s !== undefined)
+        s.average = {value: item.geldendResultaat, weight: 0, discriptor: item.omschrijving === undefined?"":item.omschrijving}
       }
-    }
-    setVar(this.getWeek, "getWeek")
-    AppComponent.zermelo.checkAccessToken();
+    })
+    let result3: LivescheduleResponse = await AppComponent.zermelo.getScedule(2022,1+AppComponent.getWeek(new Date()));
+    result3.response.data[0].appointments.forEach(app =>{
+      let id = app.id;
+      let begin: Date = new Date(app.start*1000);
+      let end: Date = new Date(app.end*1000);
+      if(app.subjects[0] === undefined){
+        this.addLesson("kwt", "kwt", new Location(app.locations[0]), begin, end).options = app.actions;
+      } else {
+        this.addLesson(app.subjects[0], app.subjects[0], new Location(app.locations[0]), begin, end);
+      }
+    });
   }
-  getWeek(currentdate: Date): number {
+  public static getWeek(currentdate: Date): number {
     var oneJan = new Date(currentdate.getFullYear(),0,1);
     oneJan.setDate(oneJan.getDate()-oneJan.getDay()+1);
     if(oneJan.getFullYear() !== currentdate.getFullYear())
       oneJan.setDate(oneJan.getDate()+7);
     return Math.floor((currentdate.getTime() - oneJan.getTime()) / (24 * 3600 * 1000 * 7))+1;
   }
+  addLesson(name: string, title: string, location: Location, begin: Date, end: Date) : Lesson{
+    let week = AppComponent.getWeek(begin);
+    let day = (begin.getDay()-1) - Math.floor((begin.getDay()-1)/7)*7;
+    let beginMinutes = begin.getMinutes()+begin.getHours()*60;
+    let endMinutes = end.getMinutes()+end.getHours()*60;
+    if(!Object.keys(AppComponent.data.value.subjects).includes(name)){
+      let s = new Subject();
+      s.name = name;
+      AppComponent.data.value.subjects[name] = s;
+    }
+    let s = AppComponent.data.value.subjects[name];
+    let lesson = new Lesson(title, location, day, week, beginMinutes, endMinutes)
+    if(!(s instanceof Subject)) return lesson;
+    let weekIndex = s.weeks.findIndex(x=>{return x.index == week;})
+    if(weekIndex === -1) {
+      let w: Week = new Week(week);
+      w.days = [[],[],[],[],[],[],[]];
+      s.weeks.push(w);
+      weekIndex += s.weeks.length
+    }
+    let dayIndex: number = s.weeks[weekIndex].days[day].findIndex(x => x.dayNumber === day && x.start === beginMinutes && x.end === endMinutes)
+    if(dayIndex === -1)
+      s.weeks[weekIndex].days[day].push(lesson);
+    else
+      return lesson;
+    return lesson;
+  }
   public static linkSettings: {[name: string]: {androidLink: string, iosLink: string, webLink: string}} = {
     "zermelo": {webLink: Zermelo.loginLink, androidLink: "", iosLink: ""},
     "office": {webLink: "https://www.office.com/", androidLink: "", iosLink: ""},
     "sintjan": {webLink: "https://www.sintjan-lvo.nl/", androidLink: "", iosLink: ""},
+    "somtoday": {webLink: "https://inloggen.somtoday.nl/", androidLink: "", iosLink: ""},
+    "itsLearning": {webLink: "https://lvo.itslearning.com/", androidLink: "", iosLink: ""}
   }
   link(name: string): void {
     AppComponent.openLink(name);
   }
   public static openLink(name: string): void {
-    alert("open: "+name);
     if(!Object.keys(AppComponent.linkSettings).includes(name)) return;
     Browser.open({url: AppComponent.linkSettings[name].webLink});
   }

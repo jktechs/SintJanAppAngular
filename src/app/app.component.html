@@ -1,18 +1,17 @@
 <div style="height: 100%;" class="mat-app-background" *ngIf="visible">
-    <div class="container mat-app-background" id="header" style="padding: 0px;display: flex;flex-direction: row;flex-wrap: nowrap;"><!--mat-app-background-->
+    <!----><div class="container mat-app-background" id="header" style="padding: 0px;display: flex;flex-direction: row;flex-wrap: nowrap;">
         <img src="assets/logosintjan.svg" style="height: 90%;" (click)="link('sintjan')"/>
-    </div>
+    </div><!---->
     <div id="page" class="mat-app-background"><!--my-light-theme--><!--mat-app-background-->
         <app-footer>
             <app-navigation>
                 <app-grid-page *appListItem="linkGrid"></app-grid-page>
-                <app-subject-page *appListItem="grades"></app-subject-page>
+                <app-subject-list-page *appListItem="grades"></app-subject-list-page>
                 <app-schedule-page *appListItem="scedule"></app-schedule-page>
                 <app-settings-page *appListItem="settings"></app-settings-page>
-
                 
-                <app-grid-page *appListItem></app-grid-page>
-                <app-grid-page *appListItem></app-grid-page>
+                <app-subject-page *appListItem></app-subject-page>
+                <app-kwt-option-page *appListItem></app-kwt-option-page>
             </app-navigation>
         </app-footer>
     </div>

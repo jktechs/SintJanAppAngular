@@ -12,9 +12,9 @@ export class ListItemDirective {
     public active: boolean = false;
     public name: string = ListItemDirective.defaultName;
     public isAnimating: boolean = false;
+    public data: any;
 
     constructor(private templateRef: TemplateRef<any>) {
         this.itemTemplate = this.templateRef;
     }
-
 }

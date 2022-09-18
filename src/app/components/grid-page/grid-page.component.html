@@ -5,8 +5,11 @@
     <img class="imgLink" style="width: 28vw;height: 28vw;" src="assets/som.svg" (click)="openLink('somtoday')"/>
     <img class="imgLink" style="width: 28vw;height: 28vw;" src="assets/zrm.svg" (click)="openLink('zermelo')"/>
     <app-grade-widget class="imgLink" style="width: 28vw;height: 60vw;"></app-grade-widget>-->
-    <app-widget name="link" [data]="{x:1,y:1,appName:'zermelo',src:'assets/zrm.svg',color:'#ee3b33'}"></app-widget>
-    <app-widget name="grades" [data]="{x:0,y:1}"></app-widget>
-    <app-widget name="link" [data]="{x:2,y:2,appName:'office',src:'assets/off.svg',color:'#ec3900'}"></app-widget>
-    <app-widget name="homework"></app-widget>
+    <app-widget name="link" [data]="{x:0,y:0,appName:'zermelo',src:'assets/zrm.svg',color:'#ee3b33'}"></app-widget>
+    <!--<app-widget name="grades" [data]="{x:0,y:1}"></app-widget>-->
+    <app-widget name="link" [data]="{x:1,y:1,appName:'office',src:'assets/off.svg',color:'#ec3900'}"></app-widget>
+
+    <app-widget name="link" [data]="{x:0,y:1,appName:'somtoday',src:'assets/som.svg',color:'#005eb5'}"></app-widget>
+    <app-widget name="link" [data]="{x:1,y:0,appName:'itsLearning',src:'assets/itl.svg',color:'#ee7203'}"></app-widget>
+    <!--<app-widget name="homework"></app-widget>-->
 </div>

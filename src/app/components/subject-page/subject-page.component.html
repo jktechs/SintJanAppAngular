@@ -1,1 +1,6 @@
-<p>{{text}}</p>
+{{subjectName}}
+<div style="overflow-y: scroll;">
+    <ng-container *ngFor="let grd of grades">
+        <div class="listItem container">{{grd.value}} {{grd.weight}}</div>
+    </ng-container>
+</div>

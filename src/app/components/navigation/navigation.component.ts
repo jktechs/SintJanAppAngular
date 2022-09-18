@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ContentChildren, TemplateRef, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, QueryList, ContentChildren, TemplateRef, OnDestroy, NgZone } from '@angular/core';
 import { App } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
 import { delay, Mutex } from 'src/lib/Utils';
@@ -10,29 +10,34 @@ import { ListItemDirective } from './navigation.directive';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit, OnDestroy {
+  public subjectPage: ListItemDirective | undefined;
+  public kwtPage: ListItemDirective | undefined;
   public items: ListItemDirective[] = [];
   public mutex: Mutex = new Mutex();
-  public static pageHistory: ListItemDirective[] = [];
+  public static pageHistory: {directive: ListItemDirective, data?: any}[] = [];
   public get lastPage(): ListItemDirective {
     if(NavigationComponent.pageHistory.length === 0)
       return this.items[0];
-    return NavigationComponent.pageHistory[NavigationComponent.pageHistory.length-1]
+    return NavigationComponent.pageHistory[NavigationComponent.pageHistory.length-1].directive
   }
   @ContentChildren(ListItemDirective) set listItems(list: QueryList<ListItemDirective>) {
     this.mutex.use(async ()=>{
       list.forEach(el => this.items.push(el));
     })
   }
-  private activeElement: ListItemDirective | undefined;
+  public activeElement: ListItemDirective | undefined;
   onUpdateItems: (() => void) | undefined;
-  constructor() {}
+  constructor(private zone: NgZone) {
+    this.handle = App.addListener('backButton', ()=>{
+      zone.run(()=>{
+        this.back();
+      })
+    })
+  }
   public static instance: NavigationComponent;
   private handle: PluginListenerHandle | undefined;
   ngOnInit(): void {
-    NavigationComponent.instance = this;    
-    this.handle = App.addListener('backButton', ()=>{
-      this.back();
-    })
+    NavigationComponent.instance = this;
   }
   ngOnDestroy(): void {
     this.handle?.remove();
@@ -41,39 +46,41 @@ export class NavigationComponent implements OnInit, OnDestroy {
     if(this.onUpdateItems !== undefined)
       this.onUpdateItems();
     setTimeout(() => {
+      this.subjectPage = this.items[4];
+      this.kwtPage = this.items[5];
       this.setActive(this.lastPage);
     }, 100);
   }
-  public async setActive(item: ListItemDirective, push: boolean = true) {
+  public async setActive(item: ListItemDirective, data?: any) {
     let done = await this.mutex.wait();
     if(item === this.activeElement) {
       done()
       return;
     }
     let newItemIndex: number = this.items.indexOf(item);
-    if(push)
-      NavigationComponent.pageHistory.push(item);
-
-    //let str = "";
-    //for(let i = 0;i<NavigationComponent.pageHistory.length;i++)
-    //  str += NavigationComponent.pageHistory[i].name + "\n";
-    //alert(str)
-    //alert(this.activeElement?.name)
+    
 
     this.items[newItemIndex] = this.items[1];
     this.items[1] = item;
 
     item.isAnimating = true;
     item.active = true;
+    let oldItem = this.activeElement;
+
+    this.activeElement = item;
+    if(data !== undefined)
+      this.activeElement.data = data;
+    
+    NavigationComponent.pageHistory.push({directive: this.activeElement, data: this.activeElement.data});
+      
     await delay(250);
 
     item.isAnimating = false;
-    if(this.activeElement !== undefined) this.activeElement.active = false;
+    if(oldItem !== undefined) oldItem.active = false;
     
     this.items[1] = this.items[0];
     this.items[0] = item;
 
-    this.activeElement = item;
 
     if(this.items.findIndex(item => item.active) === -1) {
       item.active = true;
@@ -81,9 +88,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
     done()
   }
   public async back(): Promise<void> {
-    if(NavigationComponent.pageHistory.length <= 1) return;
+    if(NavigationComponent.pageHistory.length < 2){
+      App.exitApp();
+      return;
+    }
     NavigationComponent.pageHistory.pop();
-    await this.setActive(this.lastPage, false);
+    let newPage = NavigationComponent.pageHistory.pop();
+    if(newPage === undefined) return;
+    await this.setActive(newPage.directive, newPage.data);
   }
 }
 export class ListItemsData {

@@ -1,4 +1,5 @@
 import { GetResult, Preferences } from '@capacitor/preferences';
+import { Action } from './Zermelo';
 export abstract class Savable<M> {
     abstract simplify(): M;
     abstract readFromObject(simple: M): void;
@@ -100,6 +101,7 @@ export class Lesson {
         this.weekNumber = wnum;
         this.start = snum;
         this.end = endnum;
+        this.options = [];
     }
     dayNumber: number;
     weekNumber: number;
@@ -108,6 +110,7 @@ export class Lesson {
     end: number;
     homework?: string;
     name: string;
+    options: Action[];
 }
 export class Week {
     index: number;
@@ -120,12 +123,12 @@ export class Subject {
   name: string = "";
   weeks: Week[] = [];
   grades: Grade[] = [];
+  average?: Grade;
 }
 export type Grade = {
     value: number,
     weight: number,
     discriptor: string,
-    average: boolean,
 }
 export function pad(num: number, size: number): string {
     let sNum = num.toString();

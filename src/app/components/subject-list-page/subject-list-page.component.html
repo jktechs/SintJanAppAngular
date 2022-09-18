@@ -1,0 +1,5 @@
+<div style="overflow-y: scroll;">
+    <ng-container *ngFor="let subj of subjects">
+        <div class="listItem container" (click)="log(subj)">{{subj.name}} {{getAverage(subj)}}</div>
+    </ng-container>
+</div>
