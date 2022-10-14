@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component,OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AppComponent } from 'src/app/app.component';
@@ -6,6 +6,7 @@ import { BarcodeScanner, CameraDirection, CheckPermissionResult, ScanResult, Sup
 import { tryJSONParse } from 'src/lib/Utils';
 import { Browser } from '@capacitor/browser';
 import { Somtoday } from 'src/lib/Somtoday';
+import { Savable, JSONObject } from 'src/lib/Utils';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -19,7 +20,31 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './settings-page.component.html',
   styleUrls: ['./settings-page.component.css']
 })
-export class SettingsPageComponent {
+export class SettingsPageComponent implements OnInit {
+  primary: string = "primary"
+  updateAllComplete() {
+    Savable.Save("settings",AppComponent.settings);
+  }
+  setAll(completed: boolean) {
+    for(let i = 0;i<AppComponent.settings.value.length;i++)
+    AppComponent.settings.value[i] = completed;
+    this.updateAllComplete();
+  }
+  constructor(){
+  }
+  ngOnInit(): void {
+  }
+
+  get values(): boolean[] {
+    return AppComponent.settings.value;
+  }
+
+  get checkbox(): {checked: boolean, indeterminate: boolean}{
+    let some = AppComponent.settings.value.some(t=>t);
+    let all = AppComponent.settings.value.every(t=>t);
+    return {checked: all, indeterminate: some && !all};
+  }
+
   codeFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]{12}')]);
   matcher = new MyErrorStateMatcher();
   onSubmit() {

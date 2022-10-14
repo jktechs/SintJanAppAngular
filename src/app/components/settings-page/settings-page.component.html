@@ -1,3 +1,20 @@
+<div style="font-size: large;">
+  <mat-checkbox [checked]="checkbox.checked" [color]="primary" [indeterminate]="checkbox.indeterminate" (change)="setAll($event.checked)">
+    Open app if possible
+  </mat-checkbox>
+  <br>
+  <mat-checkbox style="transform: translateX(5vw);" [(ngModel)]="values[0]" [color]="primary" (ngModelChange)="updateAllComplete()">
+    Somtoday
+  </mat-checkbox>
+  <br>
+  <mat-checkbox style="transform: translateX(5vw);" [(ngModel)]="values[1]" [color]="primary" (ngModelChange)="updateAllComplete()">
+    Itslearning
+  </mat-checkbox>
+  <br>
+  <mat-checkbox style="transform: translateX(5vw);" [(ngModel)]="values[2]" [color]="primary" (ngModelChange)="updateAllComplete()">
+    Office
+  </mat-checkbox>
+</div>
 <form class="example-form">
     <mat-form-field appearance="fill">
       <mat-label>Chain code</mat-label>
@@ -13,8 +30,9 @@
     </mat-form-field>
     <button mat-flat-button color="primary" (click)="onSubmit()">Zermelo login</button>
   </form>
+  <button mat-flat-button color="primary" (click)="startScanning();">Scan QR Code</button>
+  <br>
   <button mat-flat-button color="primary" (click)="somLogin();">Somtoday login</button>
-  <button mat-flat-button color="primary" (click)="startScanning();">Start qrcode scan</button>
   <div style="display:flex;flex-direction: column;justify-content: space-evenly;width: 100%;padding:1%">
     <a><b>Contact</b></a>
     <a href="https://www.google.com/maps/dir//Sint-Janscollege,+Amstenraderweg+122,+6431+EN+Hoensbroek/">Amstenraderweg 122<br>6431 EN Hoensbroek<br><i class="fa-solid fa-location-dot"></i> Routebeschrijving</a>

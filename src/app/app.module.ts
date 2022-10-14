@@ -21,6 +21,7 @@ import { GradeWidgetComponent } from './components/grade-widget/grade-widget.com
 import { WidgetComponent } from './components/widget/widget.component';
 import { SubjectListPageComponent } from './components/subject-list-page/subject-list-page.component';
 import { KwtOptionPageComponent } from './components/kwt-option-page/kwt-option-page.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { KwtOptionPageComponent } from './components/kwt-option-page/kwt-option-
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
   ],
   providers: [InAppBrowser, {
     // processes all errors

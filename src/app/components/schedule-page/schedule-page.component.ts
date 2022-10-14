@@ -70,8 +70,10 @@ export class PageHandler {
       if(this.clear()){
         let page = Math.round(this.offset/this.width);
         let diff: number = this.offset/this.width - page;
-        if(this.update !== undefined && page !== 0)
+        if(this.update !== undefined && page !== 0) {
           this.update(Math.sign(diff));
+          //alert("via log")
+        }
       }
       this.offset = 0;
       this.oldPos = e.x
@@ -86,16 +88,19 @@ export class PageHandler {
     this.clamp();
   }
   clamp(): void {
-    this.offset = Math.max(-2*PageHandler.epsilon-this.width,Math.min(this.width-2*PageHandler.epsilon,this.offset));
+    this.offset = Math.max(2*PageHandler.epsilon-this.width,Math.min(this.width-2*PageHandler.epsilon,this.offset));
   }
   reset(e: PointerEvent): void {
     this.pressed = false;
     this.intervals.push(setInterval(()=>{
       let page = Math.round(this.offset/this.width);
       let diff: number = this.offset/this.width - page;
+      //alert(diff)
       if(Math.abs(diff) < PageHandler.epsilon){
-        if(this.update !== undefined && page !== 0)
+        if(this.update !== undefined && page !== 0) {
           this.update(Math.sign(diff));
+          //alert("via reset")
+        }
         this.offset = 0;
         this.clear();
       }

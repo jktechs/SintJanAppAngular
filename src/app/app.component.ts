@@ -7,7 +7,10 @@ import { JSONObject, Savable, Subject, Location, Lesson, Week, setVar, getWeekDa
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { App } from '@capacitor/app';
 import { Preferences } from '@capacitor/preferences';
-import { Data } from '@angular/router';
+import { AppLauncher } from '@capacitor/app-launcher';
+
+
+
 
 @Component({
   selector: 'app-root',
@@ -46,6 +49,7 @@ export class AppComponent implements OnInit {
   public static maxDelay: number = 3600*1000;
   public static somtoday: Somtoday;
   public static zermelo: Zermelo;
+  public static settings: JSONObject<boolean[]> = new JSONObject<boolean[]>([false, false, false]);
   public static data: JSONObject<{timestamp: number, subjects: {[name: string]: Subject | undefined}}> = new JSONObject<{timestamp: number, subjects: {[name: string]: Subject | undefined}}>({timestamp: -1,subjects:{}});
   async loadData() {
     //Preferences.clear();
@@ -66,6 +70,7 @@ export class AppComponent implements OnInit {
     })
     await Savable.Load("somtoday", AppComponent.somtoday);
     await Savable.Load("zermelo", AppComponent.zermelo);
+    await Savable.Load("settings", AppComponent.settings);
     
     await Preferences.remove({key: "data"});
     let obj = new JSONObject<{timestamp: number, subjects: {[key: string]: Subject}}>({timestamp:-1,subjects:{}});
@@ -80,6 +85,7 @@ export class AppComponent implements OnInit {
     //  });
     //}
     let dates = getWeekDates(2022, AppComponent.getWeek(new Date())-1,3);
+    
     let result: afsprakenResult = await AppComponent.somtoday.getScedule(dates.begin, dates.end);
     result.items.forEach(item=>{
       let start = new Date(item.beginDatumTijd);
@@ -106,17 +112,17 @@ export class AppComponent implements OnInit {
         s.average = {value: item.geldendResultaat, weight: 0, discriptor: item.omschrijving === undefined?"":item.omschrijving}
       }
     })
-    let result3: LivescheduleResponse = await AppComponent.zermelo.getScedule(2022,1+AppComponent.getWeek(new Date()));
-    result3.response.data[0].appointments.forEach(app =>{
-      let id = app.id;
-      let begin: Date = new Date(app.start*1000);
-      let end: Date = new Date(app.end*1000);
-      if(app.subjects[0] === undefined){
-        this.addLesson("kwt", "kwt", new Location(app.locations[0]), begin, end).options = app.actions;
-      } else {
-        this.addLesson(app.subjects[0], app.subjects[0], new Location(app.locations[0]), begin, end);
-      }
-    });
+    //let result3: LivescheduleResponse = await AppComponent.zermelo.getScedule(2022,1+AppComponent.getWeek(new Date()));
+    //result3.response.data[0].appointments.forEach(app =>{
+    //  let id = app.id;
+    //  let begin: Date = new Date(app.start*1000);
+    //  let end: Date = new Date(app.end*1000);
+    //  if(app.subjects[0] === undefined){
+    //    this.addLesson("kwt", "kwt", new Location(app.locations[0]), begin, end).options = app.actions;
+    //  } else {
+    //    this.addLesson(app.subjects[0], app.subjects[0], new Location(app.locations[0]), begin, end);
+    //  }
+    //});
   }
   public static getWeek(currentdate: Date): number {
     var oneJan = new Date(currentdate.getFullYear(),0,1);
@@ -152,18 +158,27 @@ export class AppComponent implements OnInit {
       return lesson;
     return lesson;
   }
-  public static linkSettings: {[name: string]: {androidLink: string, iosLink: string, webLink: string}} = {
-    "zermelo": {webLink: Zermelo.loginLink, androidLink: "", iosLink: ""},
-    "office": {webLink: "https://www.office.com/", androidLink: "", iosLink: ""},
-    "sintjan": {webLink: "https://www.sintjan-lvo.nl/", androidLink: "", iosLink: ""},
-    "somtoday": {webLink: "https://inloggen.somtoday.nl/", androidLink: "", iosLink: ""},
-    "itsLearning": {webLink: "https://lvo.itslearning.com/", androidLink: "", iosLink: ""}
+  public static linkSettings: {[name: string]: {androidLink?: string, iosLink?: string, webLink: string, settingsIndex: number}} = {
+    "zermelo": {webLink: Zermelo.loginLink, settingsIndex: -1},
+    "office": {webLink: "https://www.office.com/", settingsIndex: -1},
+    "sintjan": {webLink: "https://www.sintjan-lvo.nl/", settingsIndex: -1},
+    "somtoday": {webLink: "https://inloggen.somtoday.nl/", androidLink: "nl.topicus.somtoday.leerling", settingsIndex: 0},
+    "itsLearning": {webLink: "https://lvo.itslearning.com/", androidLink: "com.itslearning.itslearningintapp", iosLink: "", settingsIndex: 1}
   }
   link(name: string): void {
     AppComponent.openLink(name);
   }
-  public static openLink(name: string): void {
+  public static async openLink(name: string): Promise<void> {
     if(!Object.keys(AppComponent.linkSettings).includes(name)) return;
-    Browser.open({url: AppComponent.linkSettings[name].webLink});
+    let data = AppComponent.linkSettings[name];
+    if(data.settingsIndex != -1 && data.androidLink !== undefined && AppComponent.settings.value[data.settingsIndex]){
+      let { value } = await AppLauncher.canOpenUrl({ url: data.androidLink });
+      if(value){
+        let { completed } = await AppLauncher.openUrl({ url: data.androidLink });
+        if(completed)
+          return;
+      }
+    }
+    Browser.open({url: data.webLink});
   }
 }

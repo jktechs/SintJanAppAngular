@@ -1,5 +1,5 @@
 <ng-container *ngFor="let item of items" style="position: relative;">
-    <!--mat-app-background--><div *ngIf="item.active" [ngClass]="'container mat-app-background ' + ' ' + (item.isAnimating ? 'animate' : '')" style="padding: 0px;height: 75%;width: 100%; position: absolute;">
+    <!--mat-app-background--><div *ngIf="item.active" [ngClass]="'container mat-app-background ' + ' ' + (item.isAnimating ? 'animate' : '')" style="padding: 0px;height: calc(100vh - 30vw - 10vh);width: 100%; position: absolute;">
         <ng-container [ngTemplateOutlet]="item.itemTemplate"></ng-container>
     </div>
 </ng-container>

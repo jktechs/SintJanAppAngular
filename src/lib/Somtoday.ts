@@ -75,7 +75,9 @@ public async getScedule(firstday: Date, lastday: Date): Promise<afsprakenResult>
     await this.checkAccessToken();
     let begindate = firstday.getFullYear() + "-" + pad(firstday.getMonth() + 1, 2) + "-" + pad(firstday.getDate(), 2);
     let enddate = lastday.getFullYear() + "-" + pad(lastday.getMonth() + 1, 2) + "-" + pad(lastday.getDate(), 2);
-    let url = Somtoday.baseEndpoint + "afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen"+ /*"&additional=leerlingen"+"&begindatum=" +*/ begindate + "&einddatum=" + enddate;
+    //alert(begindate);
+    //alert(enddate);
+    let url = Somtoday.baseEndpoint + "afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen"+ /*"&additional=leerlingen"+*/"&begindatum=" + begindate + "&einddatum=" + enddate;
     let options: HttpOptions = {
         url,
         headers: { "Authorization": "Bearer " + this.access_token.value, "Accept": "application/json" },
