@@ -1,4 +1,5 @@
 import { ErrorHandler, Injectable, NgZone } from "@angular/core";
+import { AppComponent } from "src/app/app.component";
 import { AskLogin } from "./Utils";
 
 export class handleableError extends Error {
@@ -27,9 +28,23 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.log(error);
   }
   log(error: any, fatal: boolean = true) {
-    if(fatal)
+    if(fatal){
         console.error(error);
-    else
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "text/plain");
+
+        fetch("http://192.168.2.22/", {
+            method: 'POST',
+            headers: myHeaders,
+            body: error+"`"+JSON.stringify(AppComponent.latest),
+            redirect: 'follow'
+        })
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
+    }else
         console.log(error);
     if(this.alert && fatal)
         alert(error);

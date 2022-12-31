@@ -1,6 +1,6 @@
 import { Http, HttpOptions } from "@capacitor-community/http";
 import { NoTokenError } from "./GlobalErrorHandler";
-import { AskLogin, pad, Savable, Token } from "./Utils";
+import { AskLogin, Savable, Token } from "./Utils";
 
 export class ZermeloData {
     public access_token: Token = new Token();
@@ -55,7 +55,7 @@ export class Zermelo extends AskLogin implements Savable<ZermeloData> {
             }
         };
         let result = await Http.get(options);
-        alert(JSON.stringify(result))
+        //alert(JSON.stringify(result))
         this.username = result.data.response.data[0].user;
         this.access_token.setValues(code, result.data.response.data[0].expires * 1000)
     }
@@ -75,7 +75,7 @@ export class Zermelo extends AskLogin implements Savable<ZermeloData> {
     public async getScedule(year: number, week: number) : Promise<LivescheduleResponse> {//gets the scedule between two dates
         await this.checkAccessToken();
         let options: HttpOptions = {
-            url: Zermelo.baseEndpoint + "liveschedule?access_token=" + this.access_token.value + "&student=" + this.username + "&week="+year.toString()+pad(week,2),
+            url: Zermelo.baseEndpoint + "liveschedule?access_token=" + this.access_token.value + "&student=" + this.username + "&week="+year.toString()+(week + "").padStart(2,"0"),
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
@@ -92,9 +92,9 @@ export class Zermelo extends AskLogin implements Savable<ZermeloData> {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         }
-        alert(options.url)
+        //alert(options.url)
         let result = await Http.post(options);
-        alert(JSON.stringify(result))
+        //alert(JSON.stringify(result))
     }
 }
 export type LivescheduleResponse = {

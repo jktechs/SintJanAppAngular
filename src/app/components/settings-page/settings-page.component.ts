@@ -45,7 +45,7 @@ export class SettingsPageComponent implements OnInit {
     return {checked: all, indeterminate: some && !all};
   }
 
-  codeFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]{12}')]);
+  codeFormControl = new FormControl('', [Validators.required, Validators.pattern('(?:\d{3}\s?){4}$')]);
   matcher = new MyErrorStateMatcher();
   onSubmit() {
     let code = this.codeFormControl.getRawValue();

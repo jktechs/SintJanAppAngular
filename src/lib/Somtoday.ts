@@ -1,6 +1,6 @@
 import { Http, HttpOptions } from '@capacitor-community/http';
 import { NoTokenError } from './GlobalErrorHandler';
-import { AskLogin, pad, Savable, Token } from './Utils';
+import { AskLogin, Savable, Token } from './Utils';
 
 export class SomtodayData {
     public access_token: Token = new Token();
@@ -73,8 +73,12 @@ public async getStudent() {//gets user data
 }
 public async getScedule(firstday: Date, lastday: Date): Promise<afsprakenResult> {//gets the scedule between two dates
     await this.checkAccessToken();
-    let begindate = firstday.getFullYear() + "-" + pad(firstday.getMonth() + 1, 2) + "-" + pad(firstday.getDate(), 2);
-    let enddate = lastday.getFullYear() + "-" + pad(lastday.getMonth() + 1, 2) + "-" + pad(lastday.getDate(), 2);
+
+    
+    const padded = (.1 + "").padStart(6, "0");
+
+    let begindate = firstday.getFullYear() + "-" + ((firstday.getMonth() + 1) + "").padStart(2, "0") + "-" + (firstday.getDate() + "").padStart(2, "0");
+    let enddate = lastday.getFullYear() + "-" + ((lastday.getMonth() + 1) + "").padStart(2, "0") + "-" + (lastday.getDate() + "").padStart(2, "0");
     //alert(begindate);
     //alert(enddate);
     let url = Somtoday.baseEndpoint + "afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen"+ /*"&additional=leerlingen"+*/"&begindatum=" + begindate + "&einddatum=" + enddate;

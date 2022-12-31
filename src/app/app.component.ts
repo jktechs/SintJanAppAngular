@@ -3,7 +3,7 @@ import { afsprakenResult, resultatenResult, Somtoday, Vak } from 'src/lib/Somtod
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { LivescheduleResponse, Zermelo } from 'src/lib/Zermelo';
 import { Browser } from '@capacitor/browser';
-import { JSONObject, Savable, Subject, Location, Lesson, Week, setVar, getWeekDates } from 'src/lib/Utils';
+import { JSONObject, Savable, Subject, Location, Lesson, Week, getWeek, getWeekDates } from 'src/lib/Utils';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { App } from '@capacitor/app';
 import { Preferences } from '@capacitor/preferences';
@@ -43,15 +43,16 @@ export class AppComponent implements OnInit {
   grade: string = "Grade";
   KWT: string = "KWT";
   ngOnInit(): void {
-    this.loadData();
+    this.init();
   }
+  public static latest: undefined | afsprakenResult | resultatenResult = undefined;
   public static numberOfDays = 7;
   public static maxDelay: number = 3600*1000;
   public static somtoday: Somtoday;
   public static zermelo: Zermelo;
   public static settings: JSONObject<boolean[]> = new JSONObject<boolean[]>([false, false, false]);
   public static data: JSONObject<{timestamp: number, subjects: {[name: string]: Subject | undefined}}> = new JSONObject<{timestamp: number, subjects: {[name: string]: Subject | undefined}}>({timestamp: -1,subjects:{}});
-  async loadData() {
+  async init() {
     //Preferences.clear();
     App.addListener('appUrlOpen', (data)=>{
       Browser.close();
@@ -60,6 +61,7 @@ export class AppComponent implements OnInit {
       if(code !== null)
         AppComponent.somtoday.getCodeToken(code).then((t)=>{
           alert("login succses")
+          this.loadData();
         })
     })
     AppComponent.somtoday = new Somtoday(()=>{
@@ -71,7 +73,10 @@ export class AppComponent implements OnInit {
     await Savable.Load("somtoday", AppComponent.somtoday);
     await Savable.Load("zermelo", AppComponent.zermelo);
     await Savable.Load("settings", AppComponent.settings);
-    
+
+    await this.loadData();
+  }
+  async loadData(){
     await Preferences.remove({key: "data"});
     let obj = new JSONObject<{timestamp: number, subjects: {[key: string]: Subject}}>({timestamp:-1,subjects:{}});
     AppComponent.data = await Savable.Load("data",obj);
@@ -84,9 +89,22 @@ export class AppComponent implements OnInit {
         //alert(JSON.stringify(schedule));
     //  });
     //}
-    let dates = getWeekDates(2022, AppComponent.getWeek(new Date())-1,3);
-    
+    await this.addWeeks(getWeekDates(2022, getWeek(new Date())-1,3));
+    //let result3: LivescheduleResponse = await AppComponent.zermelo.getScedule(2022,1+AppComponent.getWeek(new Date()));
+    //result3.response.data[0].appointments.forEach(app =>{
+    //  let id = app.id;
+    //  let begin: Date = new Date(app.start*1000);
+    //  let end: Date = new Date(app.end*1000);
+    //  if(app.subjects[0] === undefined){
+    //    this.addLesson("kwt", "kwt", new Location(app.locations[0]), begin, end).options = app.actions;
+    //  } else {
+    //    this.addLesson(app.subjects[0], app.subjects[0], new Location(app.locations[0]), begin, end);
+    //  }
+    //});
+  }
+  async addWeeks(dates: {begin: Date, end: Date}): Promise<void> {
     let result: afsprakenResult = await AppComponent.somtoday.getScedule(dates.begin, dates.end);
+    AppComponent.latest = result;
     result.items.forEach(item=>{
       let start = new Date(item.beginDatumTijd);
       let end = new Date(item.eindDatumTijd);
@@ -97,6 +115,7 @@ export class AppComponent implements OnInit {
       this.addLesson(name, item.titel, new Location(item.locatie.toUpperCase()), start, end);
     })
     let result2: resultatenResult = await AppComponent.somtoday.getGrades();
+    AppComponent.latest = result2;
     result2.items.forEach(item=>{
       let name = item.vak.afkorting;
       if(!Object.keys(AppComponent.data.value.subjects).includes(name)){
@@ -112,27 +131,9 @@ export class AppComponent implements OnInit {
         s.average = {value: item.geldendResultaat, weight: 0, discriptor: item.omschrijving === undefined?"":item.omschrijving}
       }
     })
-    //let result3: LivescheduleResponse = await AppComponent.zermelo.getScedule(2022,1+AppComponent.getWeek(new Date()));
-    //result3.response.data[0].appointments.forEach(app =>{
-    //  let id = app.id;
-    //  let begin: Date = new Date(app.start*1000);
-    //  let end: Date = new Date(app.end*1000);
-    //  if(app.subjects[0] === undefined){
-    //    this.addLesson("kwt", "kwt", new Location(app.locations[0]), begin, end).options = app.actions;
-    //  } else {
-    //    this.addLesson(app.subjects[0], app.subjects[0], new Location(app.locations[0]), begin, end);
-    //  }
-    //});
-  }
-  public static getWeek(currentdate: Date): number {
-    var oneJan = new Date(currentdate.getFullYear(),0,1);
-    oneJan.setDate(oneJan.getDate()-oneJan.getDay()+1);
-    if(oneJan.getFullYear() !== currentdate.getFullYear())
-      oneJan.setDate(oneJan.getDate()+7);
-    return Math.floor((currentdate.getTime() - oneJan.getTime()) / (24 * 3600 * 1000 * 7))+1;
   }
   addLesson(name: string, title: string, location: Location, begin: Date, end: Date) : Lesson{
-    let week = AppComponent.getWeek(begin);
+    let week = getWeek(begin);
     let day = (begin.getDay()-1) - Math.floor((begin.getDay()-1)/7)*7;
     let beginMinutes = begin.getMinutes()+begin.getHours()*60;
     let endMinutes = end.getMinutes()+end.getHours()*60;

@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ContentChildren, TemplateRef, OnDestroy, NgZone } from '@angular/core';
 import { App } from '@capacitor/app';
 import { PluginListenerHandle } from '@capacitor/core';
-import { delay, Mutex } from 'src/lib/Utils';
+import { Mutex } from 'src/lib/Utils';
 import { ListItemDirective } from './navigation.directive';
 
 @Component({
@@ -72,8 +72,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       this.activeElement.data = data;
     
     NavigationComponent.pageHistory.push({directive: this.activeElement, data: this.activeElement.data});
-      
-    await delay(250);
+    
+    await new Promise( resolve => setTimeout(resolve, 250) );
 
     item.isAnimating = false;
     if(oldItem !== undefined) oldItem.active = false;

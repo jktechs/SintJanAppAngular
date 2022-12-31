@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
-import { Lesson, setVar, Week } from 'src/lib/Utils';
+import { Lesson, setVar, Week, getWeek } from 'src/lib/Utils';
 import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
@@ -11,7 +11,7 @@ import { NavigationComponent } from '../navigation/navigation.component';
 export class SchedulePageComponent implements OnInit, OnDestroy {
   startMinute = 8*60+30;
   endMinute = 5 + 18*60+5;
-  weekNumber = AppComponent.getWeek(new Date());
+  weekNumber = getWeek(new Date());
   minuteToPixel: number = -1;
 
   width: number;
