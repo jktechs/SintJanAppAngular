@@ -64,46 +64,44 @@ public async getPasswordToken(username: string, password: string): Promise<Token
     return await this.getToken("password", password, { "username": Somtoday.LVOBuuid + "\\" + username });
 }
 public async getStudent() {//gets user data
-    await this.checkAccessToken();
-    let options: HttpOptions = {
-        url: Somtoday.baseEndpoint + "leerlingen",
-        headers: { "Authorization": "Bearer " + this.access_token.value, "Accept": "application/json" }
-    };
-    return (await Http.get(options)).data;
+    return await this.getData("leerlingen", {})
 }
 public async getScedule(firstday: Date, lastday: Date): Promise<afsprakenResult> {//gets the scedule between two dates
-    await this.checkAccessToken();
     let begindate = firstday.getFullYear() + "-" + pad(firstday.getMonth() + 1, 2) + "-" + pad(firstday.getDate(), 2);
     let enddate = lastday.getFullYear() + "-" + pad(lastday.getMonth() + 1, 2) + "-" + pad(lastday.getDate(), 2);
-    //alert(begindate);
-    //alert(enddate);
-    let url = Somtoday.baseEndpoint + "afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen"+ /*"&additional=leerlingen"+*/"&begindatum=" + begindate + "&einddatum=" + enddate;
-    let options: HttpOptions = {
-        url,
-        headers: { "Authorization": "Bearer " + this.access_token.value, "Accept": "application/json" },
-    };
-    return (await Http.get(options)).data;
-    //return JSON.parse(tempRespns);
+    return await this.getData("afspraken?sort=asc-id&additional=vak&additional=docentAfkortingen"+ /*"&additional=leerlingen"+*/"&begindatum=" + begindate + "&einddatum=" + enddate, {})
 }
 public async getGrades(): Promise<resultatenResult> {//gets the scedule between two dates
+    return await this.getData("resultaten/huidigVoorLeerling/" + this.user_id, {'Range':'items=0-600'})
+}
+public async getMessages(firstday: Date): Promise<berichtResult> {
+    let begindate = firstday.getFullYear() + "-" + pad(firstday.getMonth() + 1, 2) + "-" + pad(firstday.getDate(), 2);
+    return await this.getData("actierealisaties?additional=verzender&publicatie.startPublicatieNaOfOp="+begindate , {})
+}
+public async getHomework(firstday: Date): Promise<huiswerkResult> {
+    let begindate = firstday.getFullYear() + "-" + pad(firstday.getMonth() + 1, 2) + "-" + pad(firstday.getDate(), 2);
+    let res1: huiswerkResult = await this.getData("studiewijzeritemafspraaktoekenningen?additional=swigemaaktVinkjes&begintNaOfOp="+begindate, {})
+    let res2: huiswerkResult = await this.getData("studiewijzeritemdagtoekenningen?additional=swigemaaktVinkjes&begintNaOfOp="+begindate, {})
+    let res3: huiswerkResult = await this.getData("studiewijzeritemweektoekenningen?additional=swigemaaktVinkjes&begintNaOfOp="+begindate, {})
+    return {
+        items:[
+            ...res1.items,
+            ...res2.items,
+            ...res3.items
+        ]
+    }
+}
+public async getData(url: string, _headers: { [name: string]: string }): Promise<any> {
     await this.checkAccessToken();
-    let url = Somtoday.baseEndpoint + "resultaten/huidigVoorLeerling/" + this.user_id;
-    let options: HttpOptions = {
-        url,
-        headers: { "Authorization": "Bearer " + this.access_token.value, "Accept": "application/json",'Range':'items=0-600' },
-    };
-    //let grades = (await Http.get(options)).data;
-    //let gradeDict: { [name: string]: number[] } = {};
-    //for (let i = 0; i < grades.items.length; i++) {
-    //    let grade = grades.items[i];
-    //    if(gradeDict.hasOwnProperty(grade.vak.naam)){
-    //        gradeDict[grade.vak.naam].push(grade);
-    //    } else {
-    //        gradeDict[grade.vak.naam] = [grade];
-    //    }
-    //}
-    return (await Http.get(options)).data;
-    //return JSON.parse(tempRespns2);
+    let headers: { [name: string]: string } = {
+        ..._headers,
+        "Authorization": "Bearer " + this.access_token.value,
+        "Accept": "application/json"
+    }
+    return (await Http.get({
+        url: Somtoday.baseEndpoint + url,
+        headers,
+    })).data;
 }
 public async getCodeToken(code: string): Promise<Token> {
         return await this.getToken("authorization_code", "", {
@@ -113,7 +111,52 @@ public async getCodeToken(code: string): Promise<Token> {
         });
 }
 }
-
+export type berichtResult = {
+    items:{
+        additionalObjects:{
+            verzender: string,
+        },
+        gelezen: boolean,
+        actief: boolean,
+        gelezenOp: string,
+        actie:{
+            startPublicatie: string,
+            onderwerp: string,
+            inhoud: string,
+            prioriteit: string,
+            notificatieType: string,
+            bijlages: bijlage[]
+        }
+    }
+}
+export type bijlage = {
+    omschrijving?: string,
+    assemblyResults: {
+        fileExtension: string,
+        mimeType: string,
+        fileUrl: string,
+        sslUrl: string,
+        fileName: string
+    }
+}
+export type huiswerkResult = {
+    items:{
+        additionalObjects:{
+            swigemaaktVinkjes:{
+                items: {
+                    gemaakt: boolean
+                }[]
+            }
+        },
+        studiewijzerItem?: {
+            onderwerp: string,
+            huiswerkType: string,
+            omschrijving: string,
+            bijlagen: bijlage[]
+        },
+        datumTijd: string
+    }[]
+}
 export type afsprakenResult = {
     items: {
         links:[
