@@ -1,0 +1,671 @@
+{
+  "acl": {
+    "lastName": "Ackermans",
+    "initials": "L.M.",
+    "email": "l.ackermans@stichtinglvo.nl",
+    "subjects": [
+      "Nederlands"
+    ]
+  },
+  "ade": {
+    "lastName": "Adriaans",
+    "initials": "E.M.C.",
+    "email": "e.adriaans@stichtinglvo.nl",
+    "subjects": [
+      "beeldende vormgeving",
+      "ckv"
+    ]
+  },
+  "ala": {
+    "lastName": "Alberts",
+    "initials": "A",
+    "email": "a.alberts@stichtinglvo.nl",
+    "subjects": [
+      "Nederlands"
+    ]
+  },
+  "ark": {
+    "lastName": "Arnold",
+    "initials": "K",
+    "email": "k.arnold@stichtinglvo.nl",
+    "subjects": [
+      "scheikunde"
+    ]
+  },
+  "baj": {
+    "lastName": "Bams-Claessens",
+    "initials": "J.E.W.",
+    "email": "i.bams@stichtinglvo.nl",
+    "subjects": [
+      "Grieks",
+      "Latijn"
+    ]
+  },
+  "bea": {
+    "lastName": "Berende",
+    "initials": "A.A.M.",
+    "email": "g.berende@stichtinglvo.nl",
+    "subjects": [
+      "Nederlands",
+      "geschiedenis"
+    ]
+  },
+  "beh": {
+    "lastName": "Beksvoort",
+    "initials": "H.J.",
+    "email": "h.beksvoort@stichtinglvo.nl",
+    "subjects": [
+      "scheikunde"
+    ]
+  },
+  "bek": {
+    "lastName": "Berben",
+    "initials": "K.",
+    "email": "k.berben@stichtinglvo.nl",
+    "subjects": [
+      "scheikunde"
+    ]
+  },
+  "bem": {
+    "lastName": "Beckers",
+    "initials": "M.B.A.",
+    "email": "michel.beckers@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "boa": {
+    "lastName": "Bovens",
+    "initials": "A.G.G.",
+    "email": "a.bovens@stichtinglvo.nl",
+    "subjects": [
+      "Duits",
+      "burgerschapsvorming"
+    ]
+  },
+  "boy": {
+    "lastName": "Bouwens-Cabo",
+    "initials": "Y.M.H.",
+    "email": "y.bouwens@stichtinglvo.nl",
+    "subjects": [
+      "Nederlands",
+      "taal"
+    ]
+  },
+  "brd": {
+    "lastName": "Braek",
+    "initials": "D.E.G.",
+    "email": "d.indebraek@stichtinglvo.nl",
+    "subjects": [
+      "kunst",
+      "beeldende vormgeving",
+      "ckv"
+    ]
+  },
+  "brr": {
+    "lastName": "Bruens",
+    "initials": "R.J.W.",
+    "email": "r.bruens@stichtinglvo.nl",
+    "subjects": [
+      "geschiedenis"
+    ]
+  },
+  "coa": {
+    "lastName": "Cobben",
+    "initials": "A.",
+    "email": "a.cobben@stichtinglvo.nl",
+    "subjects": [
+      "Duits"
+    ]
+  },
+  "did": {
+    "lastName": "Diederen",
+    "initials": "D.",
+    "email": "d.diederen@stichtinglvo.nl",
+    "subjects": [
+
+    ]
+  },
+  "erf": {
+    "lastName": "Erfkemper",
+    "initials": "F.",
+    "email": "f.erfkemper@stichtinglvo.nl",
+    "subjects": [
+
+    ]
+  },
+  "ers": {
+    "lastName": "Erven",
+    "initials": "S.",
+    "email": "s.erven@stichtinglvo.nl",
+    "subjects": [
+      "Economie"
+    ]
+  },
+  "fot": {
+    "lastName": "Fonteijn",
+    "initials": "T.",
+    "email": "t.fonteijn@stichtinglvo.nl",
+    "subjects": [
+      "lich. opvoeding"
+    ]
+  },
+  "fre": {
+    "lastName": "Frenzel",
+    "initials": "E.R.P.",
+    "email": "e.frenzel@stichtinglvo.nl",
+    "subjects": [
+      "kunst",
+      "beeldende vormgeving",
+      "ckv"
+    ]
+  },
+  "fri": {
+    "lastName": "Frenken",
+    "initials": "I.T.M.",
+    "email": "i.frenken@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "frr": {
+    "lastName": "Frings",
+    "initials": "R.S.",
+    "email": "r.frings@stichtinglvo.nl",
+    "subjects": [
+      "natuurkunde",
+      "scheikunde"
+    ]
+  },
+  "gap": {
+    "lastName": "Galen",
+    "initials": "P.L.W.",
+    "email": "p.vangalen@stichtinglvo.nl",
+    "subjects": [
+      "lich. opvoeding"
+    ]
+  },
+  "grw": {
+    "lastName": "Greevenbroek",
+    "initials": "W.B.",
+    "email": "w.vangreevenbroek@stichtinglvo.nl",
+    "subjects": [
+      "geschiedenis",
+      "maatschappijleer"
+    ]
+  },
+  "guh": {
+    "lastName": "Gulikers",
+    "initials": "H.D.W.",
+    "email": "t.gulikers@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "hal": {
+    "lastName": "Hawinkels",
+    "initials": "L.",
+    "email": "l.hawinkels@stichtinglvo.nl",
+    "subjects": [
+      "Wiskunde"
+    ]
+  },
+  "hel": {
+    "lastName": "Hensgens",
+    "initials": "L.",
+    "email": "l.hensgens@stichtinglvo.nl",
+    "subjects": [
+      "muziek"
+    ]
+  },
+  "hen": {
+    "lastName": "Hendrix",
+    "initials": "N.",
+    "email": "n.hendrix@stichtinglvo.nl",
+    "subjects": [
+
+    ]
+  },
+  "hey": {
+    "lastName": "Heynen",
+    "initials": "Y.",
+    "email": "y.heynen@stichtinglvo.nl",
+    "subjects": [
+
+    ]
+  },
+  "him": {
+    "lastName": "Hillen",
+    "initials": "M.G.A.N.",
+    "email": "m.hillen@stichtinglvo.nl",
+    "subjects": [
+      "lich. opvoeding"
+    ]
+  },
+  "hov": {
+    "lastName": "Hout",
+    "initials": "V.M.J.",
+    "email": "v.vanhout@stichtinglvo.nl",
+    "subjects": [
+      "Grieks",
+      "Latijn"
+    ]
+  },
+  "iea": {
+    "lastName": "Ierland",
+    "initials": "A.D.P.",
+    "email": "a.vanierland@stichtinglvo.nl",
+    "subjects": [
+      "Engels"
+    ]
+  },
+  "jas": {
+    "lastName": "Janssen",
+    "initials": "S.D.N.",
+    "email": "sarah.janssen@stichtinglvo.nl",
+    "subjects": [
+      "Frans"
+    ]
+  },
+  "jem": {
+    "lastName": "Jeurissen",
+    "initials": "M.G.M.",
+    "email": "m.jeurissen@stichtinglvo.nl",
+    "subjects": [
+      "lich. opvoeding",
+      "bsm"
+    ]
+  },
+  "kaf": {
+    "lastName": "Kasperski",
+    "initials": "F.J.A.",
+    "email": "f.kasperski@stichtinglvo.nl",
+    "subjects": [
+      "muziek"
+    ]
+  },
+  "kej": {
+    "lastName": "Kersjes",
+    "initials": "J.J.K.",
+    "email": "j.kersjes@stichtinglvo.nl",
+    "subjects": [
+      "lich. opvoeding",
+      "bsm"
+    ]
+  },
+  "kid": {
+    "lastName": "Kil-Cortlever",
+    "initials": "D.G.H.",
+    "email": "d.kil@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "kit": {
+    "lastName": "Kirkels-Dirksen",
+    "initials": "T.C.",
+    "email": "t.kirkels@stichtinglvo.nl",
+    "subjects": [
+      "Engels"
+    ]
+  },
+  "kue": {
+    "lastName": "Kuypers",
+    "initials": "E.F.A.M.",
+    "email": "e.kuypers@stichtinglvo.nl",
+    "subjects": [
+      "lich. opvoeding",
+      "bsm"
+    ]
+  },
+  "kuh": {
+    "lastName": "Kusters",
+    "initials": "H.M.G.F.",
+    "email": "h.kusters@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "laj": {
+    "lastName": "Laven",
+    "initials": "J.",
+    "email": "j.laven@stichtinglvo.nl",
+    "subjects": [
+      "Nederlands"
+    ]
+  },
+  "lij": {
+    "lastName": "Limpens",
+    "initials": "J.J.H.L.",
+    "email": "j.limpens@stichtinglvo.nl",
+    "subjects": [
+      "economie",
+      "bedrijfseconomie",
+      "m&o"
+    ]
+  },
+  "lim": {
+    "lastName": "Lipperts",
+    "initials": "M.",
+    "email": "m.lipperts@stichtinglvo.nl",
+    "subjects": [
+
+    ]
+  },
+  "lot": {
+    "lastName": "Loo-Goertzen",
+    "initials": "T.C.W.",
+    "email": "t.vanloo@ stichtinglvo.nl",
+    "subjects": [
+      "Duits"
+    ]
+  },
+  "meg": {
+    "lastName": "Meulen",
+    "initials": "G.",
+    "email": "g.vandermeulen@stichtinglvo.nl",
+    "subjects": [
+      "economie",
+      "bedrijfseconomie",
+      "m&o"
+    ]
+  },
+  "mes": {
+    "lastName": "Meijer-Mendes",
+    "initials": "S.E.",
+    "email": "s.meijer@stichtinglvo.nl",
+    "subjects": [
+      "Engels"
+    ]
+  },
+  "muf": {
+    "lastName": "Muris",
+    "initials": "F.L.G.",
+    "email": "f.muris@stichtinglvo.nl",
+    "subjects": [
+      "mens en natuur"
+    ]
+  },
+  "nij": {
+    "lastName": "Nieuwenhof",
+    "initials": "J.C.P.",
+    "email": "j.vandennieuwenhof@stichtinglvo.nl",
+    "subjects": [
+      "Engels"
+    ]
+  },
+  "pad": {
+    "lastName": "Pasmans",
+    "initials": "D.",
+    "email": "d.pasmans@stichtinglvo.nl",
+    "subjects": [
+      "biologie"
+    ]
+  },
+  "peb": {
+    "lastName": "Peeters",
+    "initials": "B.T.J.",
+    "email": "b.peeters@stichtinglvo.nl",
+    "subjects": [
+      "Nederlands"
+    ]
+  },
+  "pej": {
+    "lastName": "Peters",
+    "initials": "J.M.G.",
+    "email": "h.peters@stichtinglvo.nl",
+    "subjects": [
+      "biologie"
+    ]
+  },
+  "pla": {
+    "lastName": "Plantaz",
+    "initials": "A.E.P.A.",
+    "email": "a.plantaz@stichtinglvo.nl",
+    "subjects": [
+      "Duits"
+    ]
+  },
+  "ree": {
+    "lastName": "Reijnders",
+    "initials": "E.G.",
+    "email": "e.reijnders@stichtinglvo.nl",
+    "subjects": [
+      "Duits"
+    ]
+  },
+  "rim": {
+    "lastName": "Rijswijk",
+    "initials": "M.M.E.",
+    "email": "m.vanrijswijk@stichtinglvo.nl",
+    "subjects": [
+      "Nederlands"
+    ]
+  },
+  "sal": {
+    "lastName": "Sakic",
+    "initials": "L.",
+    "email": "l.sakic@stichtinglvo.nl",
+    "subjects": [
+
+    ]
+  },
+  "scc": {
+    "lastName": "Schobbe",
+    "initials": "C.A.T.",
+    "email": "k.schobbe@stichtinglvo.nl",
+    "subjects": [
+      "Engels"
+    ]
+  },
+  "scf": {
+    "lastName": "Schrevel-Hendrix",
+    "initials": "F.L.M.",
+    "email": "f.schrevel@stichtinglvo.nl",
+    "subjects": [
+      "Frans"
+    ]
+  },
+  "sel": {
+    "lastName": "Severens,",
+    "initials": "L.",
+    "email": "l.severens@stichtinglvo.nl",
+    "subjects": [
+
+    ]
+  },
+  "slk": {
+    "lastName": "Slapak",
+    "initials": "K.A.W.",
+    "email": "k.slapak@stichtinglvo.nl",
+    "subjects": [
+      "aardrijkskunde"
+    ]
+  },
+  "smn": {
+    "lastName": "Smeets",
+    "initials": "N.",
+    "email": "n.smeets@stichtinglvo.nl",
+    "subjects": [
+
+    ]
+  },
+  "snj": {
+    "lastName": "Snijders",
+    "initials": "J.F.M.",
+    "email": "j.snijders@stichtinglvo.nl",
+    "subjects": [
+      "bedrijfseconomie",
+      "economie"
+    ]
+  },
+  "spj": {
+    "lastName": "Spiekers",
+    "initials": "J.",
+    "email": "j.spiekers@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "ste": {
+    "lastName": "Stolz",
+    "initials": "E.",
+    "email": "e.stolz@stichtinglvo.nl",
+    "subjects": [
+      "Engels"
+    ]
+  },
+  "str": {
+    "lastName": "Stroeks",
+    "initials": "R.A.P.",
+    "email": "r.stroeks@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "sts": {
+    "lastName": "Steijvers",
+    "initials": "S.",
+    "email": "s.steijvers@stichtinglvo.nl",
+    "subjects": [
+      "aardrijkskunde"
+    ]
+  },
+  "thm": {
+    "lastName": "Thevissen",
+    "initials": "M.J.S.",
+    "email": "m.thevissen@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "tie": {
+    "lastName": "Tillie",
+    "initials": "E.L.M.",
+    "email": "e.tillie@stichtinglvo.nl",
+    "subjects": [
+      "bedrijfseconomie",
+      "economie"
+    ]
+  },
+  "vap": {
+    "lastName": "Vanhommerig",
+    "initials": "P.M.P.",
+    "email": "peggy.smeets@stichtinglvo.nl",
+    "subjects": [
+      "Nederlands"
+    ]
+  },
+  "var": {
+    "lastName": "Vanwersch",
+    "initials": "R.M.M.A.",
+    "email": "r.vanwersch@stichtinglvo.nl",
+    "subjects": [
+      "Frans"
+    ]
+  },
+  "vlr": {
+    "lastName": "Vleugels",
+    "initials": "R.M.F.",
+    "email": "r.vleugels@stichtinglvo.nl",
+    "subjects": [
+      "aardrijkskunde"
+    ]
+  },
+  "vof": {
+    "lastName": "Vogel",
+    "initials": "F.",
+    "email": "f.vogel@stichtinglvo.nl",
+    "subjects": [
+      "natuurkunde"
+    ]
+  },
+  "vus": {
+    "lastName": "Vulperhorst",
+    "initials": "S.J.C.",
+    "email": "s.vulperhorst@stichtinglvo.nl",
+    "subjects": [
+      "geschiedenis"
+    ]
+  },
+  "wel": {
+    "lastName": "Wetzels",
+    "initials": "L.J.M.",
+    "email": "l.wetzels@stichtinglvo.nl",
+    "subjects": [
+      "mens en natuur",
+      "natuurkunde"
+    ]
+  },
+  "wij": {
+    "lastName": "Wielens",
+    "initials": "J.",
+    "email": "j.wielens@stichtinglvo.nl",
+    "subjects": [
+      "Engels",
+      "beeldende vormgeving",
+      "ckv"
+    ]
+  },
+  "wir": {
+    "lastName": "Wissen",
+    "initials": "R.E.J.",
+    "email": "r.vanwissen@stichtinglvo.nl",
+    "subjects": [
+      "wiskunde"
+    ]
+  },
+  "unknown": [
+    {
+      "lastName": "Frezzotti",
+      "initials": "C.",
+      "email": "c.frezzotti@stichtinglvo.nl",
+      "subjects": [
+        "Frans",
+        "biologie"
+      ]
+    },
+    {
+      "lastName": "Friedman",
+      "initials": "C.",
+      "email": "c.friedman@stichtinglvo.nl",
+      "subjects": [
+        "Engels"
+      ]
+    },
+    {
+      "lastName": "Hofman",
+      "initials": "D.P.P.",
+      "email": "d.hofman@stichtinglvo.nl",
+      "subjects": [
+        "lich. opvoeding",
+        "bsm"
+      ]
+    },
+    {
+      "lastName": "Hoof",
+      "initials": "D.M.P.",
+      "email": "d.vanhoof@stichtinglvo.nl",
+      "subjects": [
+        "Engels"
+      ]
+    },
+    {
+      "lastName": "Houben",
+      "initials": "M.C.J.",
+      "email": "m.houben@stichtinglvo.nl",
+      "subjects": [
+        "beeldende vormgeving",
+        "ckv"
+      ]
+    },
+    {
+      "lastName": "Hollanders",
+      "initials": "M.",
+      "email": "m.dumoulin@stichtinglvo.nl",
+      "subjects": [
+        "geschiedenis"
+      ]
+    }
+  ]
+}
