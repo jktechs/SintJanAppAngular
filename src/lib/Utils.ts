@@ -76,6 +76,13 @@ export function getWeekDates(yearNum: number, weekNum: number, numOfWeeks: numbe
     end.setDate(end.getDate() + 7*numOfWeeks);
     return {begin, end};
 }
+export function getWeek(currentdate: Date): number {
+    var oneJan = new Date(currentdate.getFullYear(),0,1);
+    oneJan.setDate(oneJan.getDate()-oneJan.getDay()+1);
+    if(oneJan.getFullYear() !== currentdate.getFullYear())
+      oneJan.setDate(oneJan.getDate()+7);
+    return Math.floor((currentdate.getTime() - oneJan.getTime()) / (24 * 3600 * 1000 * 7))+1;
+}
 export class Location {
     private static regex: RegExp = new RegExp("^([^0-9]+)([0-9])([0-9]{2})");
     private original: string;
@@ -91,7 +98,7 @@ export class Location {
             this.roomId = parseInt(result[3]);
         }
     }
-    toString() { return this.building.toString() + this.floor + pad(this.roomId,2); }
+    toString() { return this.building.toString() + this.floor + (this.roomId + "").padStart(2, "0"); }
 }
 export class Lesson {
     constructor(name: string, loc: Location, dnum: number, wnum: number, snum: number, endnum: number){
@@ -129,14 +136,6 @@ export type Grade = {
     value: number,
     weight: number,
     discriptor: string,
-}
-export function pad(num: number, size: number): string {
-    let sNum = num.toString();
-    while (sNum.length < size) sNum = "0" + sNum;
-    return sNum;
-}
-export function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
 }
 export class Mutex {
     public available: boolean = true;

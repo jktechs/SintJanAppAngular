@@ -30,6 +30,7 @@
     "@capacitor/browser": "^4.0.1",
     "@capacitor/core": "^4.0.0",
     "@capacitor/filesystem": "^4.0.0",
+    "@capacitor/ios": "^4.4.0",
     "@capacitor/preferences": "^4.0.1",
     "cordova-plugin-inappbrowser": "^5.0.0",
     "rxjs": "~7.5.0",

@@ -1,6 +1,6 @@
 import { Http, HttpOptions } from '@capacitor-community/http';
 import { NoTokenError } from './GlobalErrorHandler';
-import { AskLogin, pad, Savable, Token } from './Utils';
+import { AskLogin, Savable, Token } from './Utils';
 
 export class SomtodayData {
     public access_token: Token = new Token();
